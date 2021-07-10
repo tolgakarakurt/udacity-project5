@@ -6,13 +6,13 @@
 
 ### Requirements
 #### Dependencies:
-- (gmapping)[http://wiki.ros.org/gmapping]
-- (turtlebot_gazebo)[http://wiki.ros.org/turtlebot_gazebo]
-- (turtlebot_rviz_launchers)[http://wiki.ros.org/turtlebot_rviz_launchers] 
-- (turtlebot_teleop)[http://wiki.ros.org/turtlebot_teleop]
+- [gmapping](http://wiki.ros.org/gmapping)
+- [turtlebot_gazebo](http://wiki.ros.org/turtlebot_gazebo])
+- [turtlebot_rviz_launchers](http://wiki.ros.org/turtlebot_rviz_launchers)
+- [turtlebot_teleop](http://wiki.ros.org/turtlebot_teleop)
 
 #### Package Directory
-''' 
+``` 
 ├── README.md 
 ├── images
 │   ├── ... .... 
@@ -55,5 +55,4 @@
 |── turtlebot_simulator 
 │   ├── turtlebot_gazebo 
 │   |── ... ... 
-
-'''
+```
