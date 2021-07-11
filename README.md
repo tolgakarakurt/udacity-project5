@@ -11,7 +11,7 @@
 - [turtlebot_rviz_launchers](http://wiki.ros.org/turtlebot_rviz_launchers)
 - [turtlebot_teleop](http://wiki.ros.org/turtlebot_teleop)
 
-#### Package Directory
+### Package Directory
 ``` 
 ├── README.md 
 ├── images
@@ -56,3 +56,10 @@
 │   ├── turtlebot_gazebo 
 │   |── ... ... 
 ```
+### Tasks
+1. Map environment (myoffice.world)
+    - Import turtlebot into the environment. `turtlebot_world.launch`
+    - Control the bot by using keyboard. `keyboard_teleop.launch`
+    - Interface with SLAM package. `gmapping_demo.launch`
+    - Visualize the map in rviz. `view_navigation.launch`
+    - Replace turtlebot with `personalized robot`.
