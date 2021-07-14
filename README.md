@@ -62,4 +62,7 @@
     - Control the bot by using keyboard. `keyboard_teleop.launch`
     - Interface with SLAM package. `gmapping_demo.launch`
     - Visualize the map in rviz. `view_navigation.launch`
-    - Replace turtlebot with `personalized robot`.
+    - Replace turtlebot with personalized robot. `my_robot.launch`
+
+[YouTube upload of test_navigation.sh](https://youtu.be/_3M2Jn7vQnE)
+
