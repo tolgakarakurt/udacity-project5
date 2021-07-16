@@ -14,31 +14,23 @@
 ### Package Directory
 ``` 
 ├── README.md 
-├── images
-│   ├── ... .... 
-├── CMakeLists.txt 
-├── add_markers 
-│   ├── launch 
-│   │   └── home_service_rviz_config.launch 
-│   └── src 
-│       ├── add_markers.cpp 
-│   ├──  ... ... 
-├── config 
-│   └── marker_config.yaml 
-├── map 
-│   ├── building 
-│   │   ├── ... ... 
-│   ├── myoffice.world 
-│   ├── myoffice_map.pgm 
-│   ├── myoffice_map.yaml 
+├── add_markers  
+│   ├── src/add_markers.cpp 
+│   └──  ... ... 
 ├── my_robot
-|   ├──
+│   ├── maps
+│   │   ├── mymap.pgm
+│   │   ├── mymap.yaml
+│   │   └──  ... ...
+│   ├── rvizConfig
+│   │   └── home_service.rviz
+│   ├── worlds
+│   │    ├── empty.world
+│   │    └── myoffice4.world
+│   └──  ... ...
 ├── pick_objects 
-│   └── src 
-│       ├── pick_objects.cpp 
-│   ├──  ... ... 
-├── rvizConfig 
-│   └── home_service.rviz 
+│   ├── src/pick_objects.cpp  
+│   └──  ... ...  
 ├── scripts 
 │   ├── add_marker.sh 
 │   ├── home_service.sh 
