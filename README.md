@@ -66,5 +66,5 @@
     - Visualize the map in rviz. `view_navigation.launch`
     - Replace turtlebot with personalized robot. `my_robot.launch`
 
-[YouTube upload of test_navigation.sh](https://youtu.be/_3M2Jn7vQnE)
+YouTube upload:[test_navigation.sh](https://youtu.be/_3M2Jn7vQnE)
 
