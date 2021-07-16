@@ -1,15 +1,13 @@
 #include <ros/ros.h>
 #include <visualization_msgs/Marker.h>
-// #include <nav_msgs/Odometry.h>
 #include <std_msgs/UInt8.h>
 
-// bool marker_reach_state = false;
-uint8_t goal_reach_state = 0;
+uint8_t robot_reach_status = 0;
 
 /* robot goal proximity callback function */
 void goalReachCallback(const std_msgs::UInt8::ConstPtr& msg)
 {
-   goal_reach_state = msg->data;
+   robot_reach_status = msg->data;
    return;
 }
 
@@ -24,24 +22,25 @@ int main( int argc, char** argv )
   ros::Subscriber odom_sub = n.subscribe("/goal_reached", 1, goalReachCallback);
   bool done = false;
 
-  // Set our initial shape type to be a cube
+  // Set the initial marker shape as a cube
   uint32_t shape = visualization_msgs::Marker::CUBE;
 
-  ROS_INFO("Subscribed to desired goal-position");
+  ROS_INFO("Subscribed to target zone");
 
   while (ros::ok()) {
+
     //Do this every cycle to ensure the subscriber receives the message
     ros::spinOnce();
     visualization_msgs::Marker marker;
+
     // Set the frame ID and timestamp.  See the TF tutorials for information on these.
     marker.header.frame_id = "map";
     marker.header.stamp = ros::Time::now();
 
-    // Set the namespace and id for this marker.  This serves to create a unique ID
-    // Any marker sent with the same namespace and id will overwrite the old one
+    // Set the namespace and id for this marker.
     marker.ns = "add_markers";
     marker.id = 0;
-    // Set the marker type.  Initially this is CUBE, and cycles between that and SPHERE, ARROW, and CYLINDER
+    // Set the marker type.
     marker.type = shape;
     // Set the scale of the marker -- 1x1x1 here means 1m on a side
     marker.scale.x = 0.5;
@@ -55,37 +54,28 @@ int main( int argc, char** argv )
     marker.color.b = 1.0f;
     marker.color.a = 1.0;
 
-    switch (goal_reach_state)
+    switch (robot_reach_status)
     {
       case 0: // publish pick-up marker
         {
-          //ROS_INFO("publishing PICK-UP marker");
+          ROS_INFO("publishing pick-up marker");
           // Set the marker action.  Options are ADD, DELETE, and new in ROS Indigo: 3 (DELETEALL)
           marker.action = visualization_msgs::Marker::ADD;
-          // Set the pose of the marker.  This is a full 6DOF pose relative to the frame/time specified in the header
-/*          n.getParam("/pick_up_loc/tx", marker.pose.position.x);
-          n.getParam("/pick_up_loc/ty", marker.pose.position.y);
-          n.getParam("/pick_up_loc/tz", marker.pose.position.z);
-          n.getParam("/pick_up_loc/qx", marker.pose.orientation.x);
-          n.getParam("/pick_up_loc/qy", marker.pose.orientation.y);
-          n.getParam("/pick_up_loc/qz", marker.pose.orientation.z);
-          n.getParam("/pick_up_loc/qw", marker.pose.orientation.w);
-*/
+
 	  marker.pose.position.x = -2.0;
 	  marker.pose.position.y = 0.5;
 	  marker.pose.orientation.w = 1.0;
           break;
-        } // case 0
+        }
 
-        case 1:   // robot reach pickup site, delete pick-up marker
+        case 1:   // robot reach pickup zone, delete pick-up marker
           {
-            sleep(2);
-            //ROS_INFO("hiding PICK-UP marker");
+            ROS_INFO("removing pick-up marker");
             marker.action = visualization_msgs::Marker::DELETE;
             break;
-          } // case 1
+          }
 
-        case 2: // wait for robot to reach drop-off site
+        case 2:   // robot reach drop-off zone
           {
             marker.action = visualization_msgs::Marker::DELETE;
             break;
@@ -93,19 +83,10 @@ int main( int argc, char** argv )
 
         case 3:   // publish drop-off marker
           {
-            sleep(5);
-            //ROS_INFO("adding drop-off marker");
+            ROS_INFO("adding drop-off marker");
             // Set the marker action.  Options are ADD, DELETE, and new in ROS Indigo: 3 (DELETEALL)
             marker.action = visualization_msgs::Marker::ADD;
-            // Set the pose of the marker.  This is a full 6DOF pose relative to the frame/time specified in the header
-/*            n.getParam("/drop_off_loc/tx", marker.pose.position.x);
-            n.getParam("/drop_off_loc/ty", marker.pose.position.y);
-            n.getParam("/drop_off_loc/tz", marker.pose.position.z);
-            n.getParam("/drop_off_loc/qx", marker.pose.orientation.x);
-            n.getParam("/drop_off_loc/qy", marker.pose.orientation.y);
-            n.getParam("/drop_off_loc/qz", marker.pose.orientation.z);
-            n.getParam("/drop_off_loc/qw", marker.pose.orientation.w);
-*/
+
 	    marker.pose.position.x = -3.0;
 	    marker.pose.position.y = -3.5;
 	    marker.pose.orientation.w = 1.5;
@@ -113,7 +94,7 @@ int main( int argc, char** argv )
             break;
           }
 
-    } // switch
+    }
 
     // Publish the marker
     while (marker_pub.getNumSubscribers() < 1)
@@ -126,18 +107,18 @@ int main( int argc, char** argv )
       sleep(1);
     }
 
-    //publish the marker
+    //Publish the marker
     marker_pub.publish(marker);
 
     // if last marker published and noted as done exit
     if (done) {
-      ROS_INFO("=== DESTINATION Reached ===");
-      sleep(7);
+      ROS_INFO("Deivery Complete!");
+      sleep(5);
       return 0;
       }
 
     r.sleep();
-  } // while ros-ok
+  }
 
   return 0;
-} // main
+}

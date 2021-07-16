@@ -1,6 +1,7 @@
 #include <ros/ros.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
+#include <std_msgs/UInt8.h>
 
 // Define a client for to send goal requests to the move_base server through a SimpleActionClient
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
@@ -13,14 +14,14 @@ int main(int argc, char** argv){
   //tell the action client that we want to spin a thread by default
   MoveBaseClient ac("move_base", true);
   //set up publisher to broadcast if robot is at goal marker
-  //ros::Publisher goal_reach_pub = n.advertise<std_msgs::UInt8>("/goal_reached", 1);
+  ros::Publisher goal_reach_pub = n.advertise<std_msgs::UInt8>("/goal_reached", 1);
   // Wait 5 sec for move_base action server to come up
   while(!ac.waitForServer(ros::Duration(5.0))){
     ROS_INFO("Waiting for the move_base action server to come up");
   }
 
   move_base_msgs::MoveBaseGoal goal;		// pick-up & drop goal
-  //std_msgs::UInt8 status_msg;  // goal reach status
+  std_msgs::UInt8 status_msg;  // goal reach status
 
   // set up the frame parameters
   // pick-goal setup
@@ -29,16 +30,7 @@ int main(int argc, char** argv){
 
   // Send the goal position and orientation for the robot for pick-up location
   ROS_INFO("Publishing pick-up coordinates");
-  // Define a position and orientation for the robot to reach
-  /**
-  n.getParam("/pick_up_loc/tx", goal.target_pose.pose.position.x);
-  n.getParam("/pick_up_loc/ty", goal.target_pose.pose.position.y);
-  n.getParam("/pick_up_loc/tz", goal.target_pose.pose.position.z);
-  n.getParam("/pick_up_loc/qx", goal.target_pose.pose.orientation.x);
-  n.getParam("/pick_up_loc/qy", goal.target_pose.pose.orientation.y);
-  n.getParam("/pick_up_loc/qz", goal.target_pose.pose.orientation.z);
-  n.getParam("/pick_up_loc/qw", goal.target_pose.pose.orientation.w);
-  **/
+
   goal.target_pose.pose.position.x = -2.0;
   goal.target_pose.pose.position.y = 0.5;
   goal.target_pose.pose.orientation.w = 1.0;
@@ -57,10 +49,10 @@ int main(int argc, char** argv){
     ROS_INFO("Robot reached pick-up zone");
     ROS_INFO("Picking up the package");
     // publish goal-reach status
-    //status_msg.data = 1;
+    status_msg.data = 1;
     ros::Duration(5.0).sleep();
     // ROS_INFO("The pick-up goal-reach status is %d", status_msg.data);
-    //goal_reach_pub.publish(status_msg);
+    goal_reach_pub.publish(status_msg);
   }
   else {
     ROS_INFO("The robot failed to reach pick-up zone");
@@ -69,19 +61,10 @@ int main(int argc, char** argv){
 
 
   // robot reached pick-up location, send drop-off location
-  //ROS_INFO("Sending drop-off goal");
+  ROS_INFO("Sending drop-off goal");
   // wait a bit before next message
-  //ros::Duration(3.0).sleep();
+  ros::Duration(3.0).sleep();
 
-  // Define a position and orientation for the robot to reach
-  /**n.getParam("/drop_off_loc/tx", goal.target_pose.pose.position.x);
-  n.getParam("/drop_off_loc/ty", goal.target_pose.pose.position.y);
-  n.getParam("/drop_off_loc/tz", goal.target_pose.pose.position.z);
-  n.getParam("/drop_off_loc/qx", goal.target_pose.pose.orientation.x);
-  n.getParam("/drop_off_loc/qy", goal.target_pose.pose.orientation.y);
-  n.getParam("/drop_off_loc/qz", goal.target_pose.pose.orientation.z);
-  n.getParam("/drop_off_loc/qw", goal.target_pose.pose.orientation.w);
-  **/
   goal.target_pose.pose.position.x = -3.0;
   goal.target_pose.pose.position.y = -3.5;
   goal.target_pose.pose.orientation.w = 1.5;
@@ -100,15 +83,15 @@ int main(int argc, char** argv){
     //sleep(2);
     ROS_INFO("Dropping Package");
     // publish goal-reach status
-    //status_msg.data = 3;
-    //goal_reach_pub.publish(status_msg);
+    status_msg.data = 3;
+    goal_reach_pub.publish(status_msg);
   }
   else {
     ROS_INFO("The robot failed to reach drop-off zone");
   }
 
   // wait a bit before next message
-  //ros::Duration(5.0).sleep();
+  ros::Duration(5.0).sleep();
 
   return 0;
 }
