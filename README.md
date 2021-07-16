@@ -31,6 +31,8 @@
 │   ├── myoffice.world 
 │   ├── myoffice_map.pgm 
 │   ├── myoffice_map.yaml 
+├── my_robot
+|   ├──
 ├── pick_objects 
 │   └── src 
 │       ├── pick_objects.cpp 
