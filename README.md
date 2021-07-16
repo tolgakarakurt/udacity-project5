@@ -10,6 +10,14 @@
 - [turtlebot_gazebo](http://wiki.ros.org/turtlebot_gazebo])
 - [turtlebot_rviz_launchers](http://wiki.ros.org/turtlebot_rviz_launchers)
 - [turtlebot_teleop](http://wiki.ros.org/turtlebot_teleop)
+### Official ROS Packages
+- [gmapping](http://wiki.ros.org/gmapping): slam_gmapping provides laser-based SLAM (Simultaneous Localization and Mapping).
+With the gmapping_demo.launch file, you can easily perform SLAM and build a map of the environment with a robot equipped with laser range finder sensors or RGB-D cameras.
+- [turtlebot_teleop](http://wiki.ros.org/turtlebot_teleop): With the keyboard_teleop.launch file, you can manually control a robot using keyboard commands.
+- [turtlebot_rviz_launchers](http://wiki.ros.org/turtlebot_rviz_launchers): With the view_navigation.launch file, you can load a preconfigured rviz workspace.
+- [turtlebot_gazebo](http://wiki.ros.org/turtlebot_gazebo): With the turtlebot_world.launch you can deploy a turtlebot in a gazebo environment by linking the world file to it.
+- [amcl](http://wiki.ros.org/amcl): Performs Advanced Monte Carlo Localization, which uses particle filters to locate our robot.
+- [rviz](http://wiki.ros.org/rviz): Deploy Rviz visualization tool
 
 ### Package Directory
 ``` 
